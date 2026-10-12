@@ -177,7 +177,7 @@ on-mode-changed = []
     alt-shift-x = ['move-node-to-workspace X','workspace X']
   
     # 窗口切换器（替代 AltTab）：列出所有工作区的窗口，选中后自动切到所在工作区
-    alt-tab = 'exec-and-forget bash $HOME/.config/yabai/window_switcher'
+    alt-tab = 'exec-and-forget $HOME/.local/bin/fantastic-app-launcher'
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     # alt-tab = 'workspace-back-and-forth'
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor

@@ -10,7 +10,7 @@
 #   1. 检查 Apple Silicon；没有 Homebrew 就用官方脚本装（会问开机密码，顺带装 Xcode 命令行工具）
 #   2. 用 curl 跑的：把仓库克隆到 ~/.local/share/fantastic-i3-macOS（看不见的地方）。已经克隆了的放在哪里都行
 #   3. bin/ 里的小工具每个链到 ~/.local/bin；在 fantastic-i3 里运行时，把它的 tmux 配置（../tmux，Linux 和 macOS 共用）
-#      链到 ~/.config/tmux
+#      链到 ~/.config/tmux，VS Code 的用户设置（../vscode/settings.json，也是两边共用）链到 VS Code 读的位置
 #   4. 平铺桌面：已经接好了（~/.config/yabai 链到某一份 fantastic-i3，brew 装的或自己克隆的）就用那一份再 setup 一遍；
 #      没有就 brew install mejistus/mona/fantastic-i3，再 fantastic-i3 setup（最后列出还要手动做的事和快捷键表）
 set -euo pipefail
@@ -54,7 +54,7 @@ else
 fi
 ok "仓库：$REPO"
 
-# ---- 3. 小工具和 tmux ----
+# ---- 3. 小工具、tmux 和 VS Code ----
 link() { # <仓库里的文件夹或文件> <链接位置>
     local src=$1 dst=$2
     if [ "$(readlink "$dst" 2>/dev/null)" != "$src" ]; then
@@ -77,6 +77,11 @@ if [ -f "$REPO/../tmux/tmux.conf" ]; then
     if [ -e "$HOME/.tmux.conf" ]; then
         echo "  ~/.tmux.conf 也会被 tmux 读（先读它，再读 ~/.config/tmux/tmux.conf），里面的设置会混进来：确认不需要后删掉它"
     fi
+fi
+# VS Code 的用户设置：也在外层 fantastic-i3 仓库（../vscode/settings.json，macOS 和 Linux 共用；Linux 上链到
+# ~/.config/Code/User/settings.json）。原来的 settings.json 备份成 .bak-<时间>
+if [ -f "$REPO/../vscode/settings.json" ]; then
+    link "$(cd "$REPO/../vscode" && pwd)/settings.json" "$HOME/Library/Application Support/Code/User/settings.json"
 fi
 
 # ---- 4. 平铺桌面 ----
